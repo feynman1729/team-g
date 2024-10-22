@@ -1,66 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 環境構築
 
-## About Laravel
+```bash
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## クラスの命名規則
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+クラスの命名規則規則は基本的に以下の二つの記事を参考にして記入する
+分からんくなったらこれなら伝わるっしょっていうやつ書いてね
 
-## Learning Laravel
+-   https://qiita.com/manabuyasuda/items/dbb76ed36970bec95470
+-   https://qiita.com/cotolier_risa/items/210db74e6496d4359be7
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## コミットメッセージのテンプレート
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   以下の記事に従って先頭に接頭辞をつける
+-   https://qiita.com/muranakar/items/20a7927ffa63a5ca226a
+-   またコミットメッセージはスネークケースを使う
+-   英語が好ましいが、どうしてもというときは日本語を使ってもよい
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+例:モーダルウインドウの css を変更した際
 
-## Laravel Sponsors
+```
+    improve:modal_window_css
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ブランチの命名規則
 
-### Premium Partners
+基本的に issue を立ててからブランチをきる
+ブランチの名前のテンプレートとして以下を利用する
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```
+    {接頭辞}/#{issue番号}_{内容}
+```
 
-## Contributing
+例:issue がモーダルウィンドウの作成で issue 番号が 6 だった場合
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+    feat/#6_modalwindow
+```
 
-## Code of Conduct
+## クラス、変数、関数名、型の名称について
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+命名には以下の記事を参考にする
 
-## Security Vulnerabilities
+-   https://qiita.com/YutaManaka/items/62dda256bb7ba6c08399
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+以下にはパスカルケースを採用する
 
-## License
+-   コンポーネント名
+-   型の名称
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+例: ハンバーガーメニューコンポーネント
+
+```
+    HamburgerMenu
+```
+
+以下にはケバブケースを採用する
+
+-   クラス名
+
+```
+    hamburger-menu-style
+```
+
+それ以外はキャメルケースを用いる
+
+例:ハンバーガーメニューを開く関数
+
+```
+    openHamburgerMenu()
+```
+
