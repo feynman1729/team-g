@@ -12,9 +12,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $store = Store::with(['user', 'liked'])->latest()->get();
-        // dd($store);
-        return view('tweets.index', compact('tweets'));
+        //
     }
 
     /**
@@ -30,8 +28,15 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Google Maps APIから受け取った情報をリネームする
+            //実装予定
 
+        $store = Store::create([
+            'name' => $request->name,
+            'location' => $request->location,
+            'store_id' => join('-', [$request->location[0], $request->location[1]]) // locationをstore_idに変換
+        ]);
+        return redirect()->route('ルートの実装予定');
     }
 
     /**
@@ -62,14 +67,6 @@ class StoreController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Store $store)
-    {
-        //
-    }
-
-     /**
-     * locationをstore_idに変換
-     */
-    public function convert()
     {
         //
     }
