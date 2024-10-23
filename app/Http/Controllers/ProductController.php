@@ -12,7 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $stores = Tweet::with(['user', 'liked'])->latest()->get();
+        // dd($tweets);
+        return view('tweets.index', compact('tweets'));
     }
 
     /**
@@ -28,7 +30,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // もしLocationがnullだったら、新しくリソースを作成
+        if (is_null($request->location)) {
+            $store = Store::create([
+                'name' => $request->name,
+                'location' => $request->location,
+                'store_id' => join('-', [$request->location[0], $request->location[1]]) // locationをstore_idに変換
+            ]);
+        }
+        return redirect()->route('{-- ルートの実装予定 --}');
     }
 
     /**

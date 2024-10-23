@@ -12,7 +12,9 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        $store = Store::with(['user', 'liked'])->latest()->get();
+        // dd($store);
+        return view('tweets.index', compact('tweets'));
     }
 
     /**
@@ -29,6 +31,7 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -59,6 +62,14 @@ class StoreController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Store $store)
+    {
+        //
+    }
+
+     /**
+     * locationをstore_idに変換
+     */
+    public function convert()
     {
         //
     }
