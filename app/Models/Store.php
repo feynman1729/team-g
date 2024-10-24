@@ -14,4 +14,9 @@ class Store extends Model
     {
         return $this->hasMany(Supply::class);
     }
+
+    public function income_and_expenses()
+    {
+        return $this->hasMany(Income_and_Expense::class);
+    }
 }
