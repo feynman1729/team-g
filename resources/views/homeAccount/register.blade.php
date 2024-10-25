@@ -38,13 +38,13 @@
                                 <x-bladewind::input type="text" name="item_name" />
                             </div>
                         </div>
+                    </form>
                 @endif
 
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <x-bladewind::button
                         onclick="document.getElementById('regist_item').submit();">商品登録画面へ</x-bladewind::button>
                 </div>
-                </form>
             </div>
         </div>
     </div>
