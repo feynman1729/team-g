@@ -39,7 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('income_and_expenses', IncomeAndExpenseController::class);
     Route::post('/home-account/shop-select', [ShopSelectController::class, 'select'])->name('shopSelect');
     Route::post('/home-account/register', [RegistItemController::class, 'select'])->name('itemRegister');
-    Route::post('/home-account/addItem', [RegistItemController::class, 'select'])->name('addItem'); 
+    Route::post('/home-account/item-search', [RegistItemController::class, 'search'])->name('itemSearch'); 
+    Route::post('/home-account/item-select', [RegistItemController::class, 'itemSelect'])->name('itemSelect');
+    Route::post('/home-account/price-select', [RegistItemController::class, 'priceSelect'])->name('priceSelect');
 });
 
 require __DIR__.'/auth.php';
