@@ -49,4 +49,35 @@
         </div>
     </div>
     </div>
+    
+    <div class="absolute bottom-5 right-5 text-2xl text-blue-600">team-g</div>
+
+    <script>
+        // 電卓入力を管理するスクリプト
+        function add_Number(number) {
+            let inputField = document.getElementById('out_price');
+            inputField.value += number;
+        }
+        
+        function clear_Input() {
+            document.getElementById('out_price').value = '';
+        }
+
+        function delete_Number() {
+            let inputField = document.getElementById('out_price');
+            inputField.value = inputField.value.slice(0, -1);
+        }
+    </script>
+</body>
+</html>
+
+
+
+                </x-bladewind::tab-content>
+            </x-bladewind::tab-body>
+
+        </x-bladewind::tab-group>
+
+        
+    
 </x-app-layout>
