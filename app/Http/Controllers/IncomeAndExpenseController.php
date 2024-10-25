@@ -13,6 +13,7 @@ class IncomeAndExpenseController extends Controller
     public function index()
     {
         //
+        
     }
 
     /**
@@ -29,6 +30,23 @@ class IncomeAndExpenseController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'in_price' => 'required|numeric',
+            'description' => 'nullable|string',
+        ]);
+    
+        // トグルの状態による収入/支出の符号
+        $delta = $request->has('toggle') ? -abs($request->input('in_price')) : abs($request->input('in_price'));
+    
+        // データの保存
+        Income_and_Expense::create([
+            'delta' => $delta,
+            'date' => now(), // または指定があればフォームから受け取る
+            'description' => $request->input('description'),
+            'store_id' => null, // 必要に応じて設定
+        ]);
+    
+        return view('homeAccount.regionSelect')->with('success', 'データが保存されました。');
     }
 
     /**

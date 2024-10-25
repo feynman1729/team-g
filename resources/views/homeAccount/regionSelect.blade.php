@@ -7,8 +7,7 @@
         ['region' => '伊岐須', 'value' => '福岡県飯塚市伊岐須のスーパー'],
     ];
 @endphp
-<x-app-layout>
-    
+    <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('家計簿登録') }}
@@ -20,38 +19,30 @@
 
             <x-slot:headings>
                 <x-bladewind::tab-heading
-                    name="sys-blue" active="true" label="収入入力" />
+                    name="sys-blue" active="true" label="支出入計算" />
                 <x-bladewind::tab-heading
-                    name="inactive-sys-blue" label="支出入力" />
+                    name="inactive-sys-blue" label="最安値計算" />
             </x-slot:headings>
-
             <x-bladewind::tab-body>
                 <x-bladewind::tab-content
-                    name="sys-blue" active="true">
-                    
-                                <!DOCTYPE html>
-                                <html lang="ja">
-                                <head>
-                                    <meta charset="UTF-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                                    <title>収入入力</title>
-                                    <style>
-                                        /* Tailwind CSSの設定で背景色を設定 */
-                                        body {
-                                            background-color: #f3f4f6 /* 明るいグレーの背景色 */
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="container mx-auto py-20 flex justify-center items-center h-screen">
-                                        <div class="bg-white p-8 rounded-lg shadow-md w-1/2">
-                                            <h2 class="text-center text-2xl font-semibold text-blue-600 mb-4">収入を入力</h2>
-                                            
-                                            <form action="{{ route('income_and_expenses.store') }}" method="POST">
-                                                @csrf
-                                                
+                                name="sys-blue" active="true">
+                                <div class="container mx-auto py-20 flex justify-center items-center h-screen">
+                                    <div class="bg-white p-8 rounded-lg shadow-md w-1/2">
+                                        <h2 class="text-center text-2xl font-semibold text-blue-600 mb-4">支出入を入力</h2>
+                                        <form action="{{ route('income_and_expenses.store') }}" method="POST">
+                                                @csrf    
                                                 <div class="mb-4">
+                                                    <div class="flex items-center justify-center space-x-4">
+                                                        <!-- 左側のラベル：収入 -->
+                                                        <span class="text-gray-700 font-semibold">収入</span>
+
+                                                        <!-- トグルスイッチ -->
+                                                        <x-bladewind::toggle bar="thicker" name="toggle" />
+
+                                                        <!-- 右側のラベル：支出 -->
+                                                        <span class="text-gray-700 font-semibold">支出</span>
+                                                    </div>
+
                                                     <label for="in_price" class="block text-gray-700">金額</label>
                                                     <input type="text" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" id="in_price" name="in_price" placeholder="金額を入力" readonly required>
                                                     
@@ -75,23 +66,20 @@
                                                 <div class="mb-4">
                                                     <label for="description" class="block text-gray-700">内容</label>
                                                     <input type="text" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" id="description" name="description" placeholder="内容を入力" required>
-                                                </div>
-                                                
-                                                <div class="text-center">
-                                                    <button type="submit" class="bg-blue-600 text-white py-2 rounded w-full">保存</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="absolute bottom-5 right-5 text-2xl text-blue-600">team-g</div>
+                                                </div>                
+                                            <button type="submit" class="bg-blue-600 text-white py-2 rounded w-full">保存</button>
 
-                                    <script>
-                                        // 電卓入力を管理するスクリプト
-                                        function addNumber(number) {
-                                            let inputField = document.getElementById('in_price');
-                                            inputField.value += number;
-                                        }
+                                        </form>
+                                    </div>
+                                </div>        
+                    
+
+                    <script>
+                        // 電卓入力を管理するスクリプト
+                        function addNumber(number) {
+                        let inputField = document.getElementById('in_price');
+                        inputField.value += number;
+                        }
                                         
                                         function clearInput() {
                                             document.getElementById('in_price').value = '';
@@ -101,53 +89,32 @@
                                             let inputField = document.getElementById('in_price');
                                             inputField.value = inputField.value.slice(0, -1);
                                         }
-                                    </script>
-                                </body>
-                                </html>
-
-
-                   </x-bladewind::tab-content>
+                    </script>
+                </x-bladewind::tab-content>
                 <x-bladewind::tab-content
                 name="inactive-sys-blue">
-                <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>支出入力</title>
-    <style>
-        /* Tailwind CSSの設定で背景色を設定 */
-        body {
-            background-color: #f3f4f6; /* 明るいグレーの背景色 */
-        }
-    </style>
-</head>
-<body>
-<div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
+                    <div class="py-12">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
 
-                <form method="POST" action={{ route('shopSelect') }} id="select_region">
-                    @csrf
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        地域を選択する
-                        <div class="text-gray-900">
-                            <x-bladewind::dropdown name="region" label_key="region" value_key="value"
-                                :data="$region" />
+                                <form method="POST" action={{ route('shopSelect') }} id="select_region">
+                                    @csrf
+                                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                                        地域を選択する
+                                        <div class="text-gray-900">
+                                            <x-bladewind::dropdown name="region" label_key="region" value_key="value"
+                                                :data="$region" />
+                                        </div>
+                                    </div>
+                                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                                        <x-bladewind::button
+                                            onclick="document.getElementById('select_region').submit();">店舗選択画面へ</x-bladewind::button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <x-bladewind::button
-                            onclick="document.getElementById('select_region').submit();">店舗選択画面へ</x-bladewind::button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
                 </x-bladewind::tab-content>
             </x-bladewind::tab-body>
         </x-bladewind::tab-group>
-</x-app-layout>
+    </x-app-layout>
