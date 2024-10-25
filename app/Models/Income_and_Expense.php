@@ -21,4 +21,5 @@ class Income_and_Expense extends Model
     {
         return $this->belongsTo(Store::class);
     }
+    public $timestamps = false;
 }
