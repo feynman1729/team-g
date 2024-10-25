@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/home-account/item-search', [RegistItemController::class, 'search'])->name('itemSearch'); 
     Route::post('/home-account/item-select', [RegistItemController::class, 'itemSelect'])->name('itemSelect');
     Route::post('/home-account/price-select', [RegistItemController::class, 'priceSelect'])->name('priceSelect');
+    Route::get('/dashboard', [IncomeAndExpenseController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';
