@@ -14,7 +14,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     店舗を選択する
                     <div class="text-gray-900">
-                        <x-bladewind::dropdown name="shop" label_key="name" value_key="value" :data="$shops" />
+                        <x-bladewind::dropdown name="shop" label_key="name" value_key="place_id" :data="$stores" />
                     </div>
                 </div>
 
