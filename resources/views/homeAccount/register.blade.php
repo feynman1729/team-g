@@ -9,12 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    選択されたお店 : {{ $store_name }}
+                    選択されたお店 : {{ $store_name }} store_id : {{ $store_id }}
                 </div>
                 <div class="p-6 text-gray-900">
-                    <x-bladewind::table compact="true" divider="thin" no_data_message="購入した物リストが空です" :data="$purchase_list" />
+                    <x-bladewind::table compact="true" divider="thin">
+                        <x-slot name="header">
+                            <th>商品名</th>
+                            <th>価格</th>
+                        </x-slot>
+                    </x-bladewind::table>
                 </div>
-
                 @if ($result === '該当する商品がありません')
                     <!-- 商品がない場合のフォーム -->
                     <form method="POST" id="regist_new_item" action="{{ route('itemSelect') }}">
@@ -61,40 +65,21 @@
                     <!-- 既に選択されている場合のフォーム -->
                     <form method="POST" id="regist_price" action="{{ route('priceSelect') }}">
                         @csrf
-                        <input type="hidden" name="store_id" value="{{ $store_id }}">
-                        <input type="hidden" name="store_name" value="{{ $store_name }}">
-                        <input type="hidden" name="select_item" value="{{ $select_item }}">
-                        <input type="hidden" name="purchase_data" value="{{ json_encode($purchase_list) }}">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            {{ $select_item }}が選択されています。
-                        </div>
-                        <div class="p-6 text-gray-900 dark:text-gray-100">
-                            価格(円)
+                            店舗を選択する
                             <div class="text-gray-900">
-                                <x-bladewind::input type="text" name="item_price" />
-                            </div>
-                            <div class="p-6 text-gray-900 dark:text-gray-100">
-                                <x-bladewind::button
-                                    onclick="document.getElementById('regist_price').submit();">商品登録する</x-bladewind::button>
+                                <x-bladewind::dropdown name="shop" label_key="name" value_key="value"
+                                    :data="$stores" />
                             </div>
                         </div>
                     </form>
                 @else
-                    <!-- 検索用のフォーム -->
-                    <form method="POST" id="search_item" action="{{ route('itemSearch') }}">
-                        @csrf
-                        <input type="hidden" name="store_id" value="{{ $store_id }}">
-                        <input type="hidden" name="store_name" value="{{ $store_name }}">
-                        <input type="hidden" name="purchase_data" value="{{ json_encode($purchase_list) }}">
+                    <form method="POST" id="regist_item">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
                             商品名検索
                             <div class="text-gray-900">
-                                <x-bladewind::input type="text" name="search_word" />
+                                <x-bladewind::input type="text" name="item_name" />
                             </div>
-                        </div>
-                        <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <x-bladewind::button
-                                onclick="document.getElementById('search_item').submit();">商品検索する</x-bladewind::button>
                         </div>
                     </form>
                 @endif
@@ -106,4 +91,36 @@
             </div>
         </div>
     </div>
+    </div>
+    
+    <div class="absolute bottom-5 right-5 text-2xl text-blue-600">team-g</div>
+
+    <script>
+        // 電卓入力を管理するスクリプト
+        function add_Number(number) {
+            let inputField = document.getElementById('out_price');
+            inputField.value += number;
+        }
+        
+        function clear_Input() {
+            document.getElementById('out_price').value = '';
+        }
+
+        function delete_Number() {
+            let inputField = document.getElementById('out_price');
+            inputField.value = inputField.value.slice(0, -1);
+        }
+    </script>
+</body>
+</html>
+
+
+
+                </x-bladewind::tab-content>
+            </x-bladewind::tab-body>
+
+        </x-bladewind::tab-group>
+
+        
+    
 </x-app-layout>

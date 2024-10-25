@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Store;
-use App\Models\Supply;
 
 class RegistItemController extends Controller
 {
@@ -23,89 +22,7 @@ class RegistItemController extends Controller
         $store_id = $store->id;
 
         $result = [];
-        $purchase_list = [];
-        $select_item = "";
-        return view('homeAccount.register', compact(['store_name','result','store_id','select_item','purchase_list']));
+        return view('homeAccount.register', compact(['store_name','result','store_id']));
     }
 
-    public function search(Request $request)
-    {
-        $store_id = $request->input('store_id');
-        $store_name = $request->input('store_name');
-        
-        $data = $request->input('purchase_data');
-        $purchase_list = json_decode($data, true);
-        $result = [];
-        $search_word = $request->input('search_word');
-        
-        // supplyテーブルから検索search_wordを含む商品を取得またnameの重複を無しにする
-        $result_item = Supply::select('name')
-            ->where('name', 'like', "%$search_word%")
-            ->where('store_id', $store_id)
-            ->groupBy('name')
-            ->get();    
-        
-        // nameだけの配列を作成
-        $result_name = $result_item->pluck('name')->all();
-        
-        if ($result_item->isEmpty()) {
-            $result = "該当する商品がありません";
-        } else {
-            foreach ($result_name as $name) {
-                $result[] = [
-                    'name' => $name,
-                    'value' => $name
-                ];
-            }
-        }
-    
-        $select_item = "";
-        return view('homeAccount.register', compact(['store_name','result','store_id','select_item','purchase_list']));
-    }
-
-    public function itemSelect(Request $request)
-    {
-        $select_item = "";
-        $store_id = $request->input('store_id');
-        $store_name = $request->input('store_name');
-        $input_data = $request->input('item_name');
-        $select_name = $request->input('name');
-        $data = $request->input('purchase_data');
-        $purchase_list = json_decode($data, true);
-        if($input_data != null){
-            $select_item = $input_data;
-        }else{
-            $select_item = $select_name;
-        }
-        $result = [];
-
-        return view('homeAccount.register', compact(['store_name','result','store_id','select_item','purchase_list']));
-    }
-
-    public function priceSelect(Request $request)
-    {
-        $store_id = $request->input('store_id');
-        $store_name = $request->input('store_name');
-        $save_price = $request->input('item_price');
-        $save_item = $request->input('select_item');
-        // supplyテーブルに新しく登録
-        $supply = new Supply();
-        $supply->name = $save_item;
-        $supply->price = $save_price;
-        $supply->store_id = $store_id;
-        $supply->save();
-        $data = $request->input('purchase_data');
-        $purchase_list = json_decode($data, true);
-        // purcahse_listに追加
-        $purchase_list = array_merge($purchase_list ?: [], [
-            [
-                'name' => $save_item,
-                'price' => $save_price
-            ]
-        ]);
-        $result = [];
-        $select_item = "";
-
-        return view('homeAccount.register', compact(['store_name','result','store_id','select_item','purchase_list']));
-    }
 }
