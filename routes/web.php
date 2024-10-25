@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/home-account/shop-select', [ShopSelectController::class, 'select'])->name('shopSelect');
     Route::post('/home-account/register', [RegistItemController::class, 'select'])->name('itemRegister');
     Route::post('/home-account/addItem', [RegistItemController::class, 'select'])->name('addItem'); 
+    Route::get('/dashboard', [IncomeAndExpenseController::class, 'index'])->name('dashboard');
+
 });
 
 require __DIR__.'/auth.php';

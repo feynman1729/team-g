@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Income_and_Expense;
 use Illuminate\Http\Request;
 
+
 class IncomeAndExpenseController extends Controller
 {
     /**
@@ -13,6 +14,14 @@ class IncomeAndExpenseController extends Controller
     public function index()
     {
         //
+        $income_and_expense = Income_and_Expense::selectRaw('YEAR(date) as year, MONTH(date) as month, delta, date, description, store_id')
+        ->orderBy('date')
+        ->get()
+        ->groupBy(function ($date) {
+            return $date->year . '-' . $date->month; // 年と月でグループ化
+        });
+
+        return view('dashboard', compact('income_and_expense'));
         
     }
 
