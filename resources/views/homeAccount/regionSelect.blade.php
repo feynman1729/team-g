@@ -19,9 +19,9 @@
 
             <x-slot:headings>
                 <x-bladewind::tab-heading
-                    name="sys-blue" active="true" label="支出入計算" />
+                    name="sys-blue" active="true" label="支出入入力" />
                 <x-bladewind::tab-heading
-                    name="inactive-sys-blue" label="最安値計算" />
+                    name="inactive-sys-blue" label="店舗での購入" />
             </x-slot:headings>
             <x-bladewind::tab-body>
                 <x-bladewind::tab-content
