@@ -21,7 +21,7 @@
                         @csrf
                         <input type="hidden" name="store_id" value="{{ $store_id }}">
                         <input type="hidden" name="store_name" value="{{ $store_name }}">
-                        <input type="hidden" name="purchase_list" value="{{ json_encode($purchase_list) }}">
+                        <input type="hidden" name="purchase_data" value="{{ json_encode($purchase_list) }}">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
                             {{ $result }}
                         </div>
