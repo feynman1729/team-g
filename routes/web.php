@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IncomeAndExpenseController;
 use App\Http\Controllers\ShopSelectController;
+use App\Http\Controllers\RegistItemController;
 use App\Models\Income_and_Expense;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -37,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('income_and_expenses', IncomeAndExpenseController::class);
     Route::post('/home-account/shop-select', [ShopSelectController::class, 'select'])->name('shopSelect');
+    Route::post('/home-account/register', [RegistItemController::class, 'select'])->name('itemRegister');
+    Route::post('/home-account/addItem', [RegistItemController::class, 'select'])->name('addItem'); 
 });
 
 require __DIR__.'/auth.php';

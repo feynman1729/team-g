@@ -31,16 +31,13 @@ class ShopSelectController extends Controller
                 // 必要な情報を整形して配列に追加
                 $supermarkets[] = [
                     'name' => $place['name'],
-                    'place_id' => $place['place_id'],
+                    'value' => json_encode([$place['place_id'], $place['name']]),
                 ];
             }
         }
 
         $stores = $supermarkets;
         return view('homeAccount.shopSelect', compact('stores', 'region'));
-        // $stores をセッションに保存
-        //session(['stores' => $supermarkets]);
-        //return redirect()->route('dashboard');
     }
 
 }
