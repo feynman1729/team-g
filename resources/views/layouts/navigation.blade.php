@@ -17,12 +17,12 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('homeAccount')" :active="request()->routeIs('homeAccount')">
+                    <x-nav-link :href="route('regionSelect')" :active="request()->routeIs('home-account')">
                         {{ __('家計簿登録') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('cheapSearch')" :active="request()->routeIs('cheapSearch')">
+                    <x-nav-link :href="route('cheapSearch')" :active="request()->routeIs('cheap-search')">
                         {{ __('お買い物へ行く') }}
                     </x-nav-link>
                 </div>

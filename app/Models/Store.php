@@ -10,6 +10,8 @@ class Store extends Model
     /** @use HasFactory<\Database\Factories\StoreFactory> */
     use HasFactory;
 
+    protected $fillable = ['name', 'place_id'];
+
     public function supply()
     {
         return $this->hasMany(Supply::class);

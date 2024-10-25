@@ -62,4 +62,13 @@ class StoreController extends Controller
     {
         //
     }
+
+    /**
+     * ショップがすでに登録されているか検索
+     */
+    public function search(json $json)
+    {
+        //
+        
+    }
 }

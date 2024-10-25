@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IncomeAndExpenseController;
+use App\Http\Controllers\ShopSelectController;
+use App\Http\Controllers\RegistItemController;
 use App\Models\Income_and_Expense;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,24 +17,29 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/homeAccount', function () {
-    return view('homeAccount.register');
-})->middleware(['auth', 'verified'])->name('homeAccount');
+//家計簿入力
+Route::get('/home-account', function () {
+    return view('homeAccount.regionSelect');
+})->middleware(['auth', 'verified'])->name('regionSelect');
 
-Route::get('/cheapSearch', function () {
+// 買い物リスト登録
+Route::get('/cheap-search', function () {
     return view('cheapSearch.register');
 })->middleware(['auth', 'verified'])->name('cheapSearch');
 
-Route::get('/cheapSearch/result', function () {
+//最安値検索
+Route::get('/cheap-search/result', function () {
     return view('cheapSearch.result');
 })->middleware(['auth', 'verified'])->name('cheapSearchResult');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('income_and_expenses', IncomeAndExpenseController::class);
+    Route::post('/home-account/shop-select', [ShopSelectController::class, 'select'])->name('shopSelect');
+    Route::post('/home-account/register', [RegistItemController::class, 'select'])->name('itemRegister');
+    Route::post('/home-account/addItem', [RegistItemController::class, 'select'])->name('addItem'); 
 });
 
 require __DIR__.'/auth.php';
