@@ -1,10 +1,10 @@
 @php
     $region = [
-        ['region' => '川津', 'value' => 'fukuokaken iiduka kawazu'],
-        ['region' => '幸袋', 'value' => 'fukuokaken iiduka koubukuro'],
-        ['region' => '立岩', 'value' => 'fukuokaken iiduka tateiwa'],
-        ['region' => '二瀬', 'value' => 'fukuokaken iiduka hutase'],
-        ['region' => '伊岐須', 'value' => 'fukuokaken iiduka igisu'],
+        ['region' => '川津', 'value' => '福岡県飯塚市川津のスーパー'],
+        ['region' => '幸袋', 'value' => '福岡県飯塚市幸袋のスーパー'],
+        ['region' => '立岩', 'value' => '福岡県飯塚市立岩のスーパー'],
+        ['region' => '二瀬', 'value' => '福岡県飯塚市二瀬のスーパー'],
+        ['region' => '伊岐須', 'value' => '福岡県飯塚市伊岐須のスーパー'],
     ];
 @endphp
 <x-app-layout>

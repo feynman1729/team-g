@@ -21,23 +21,22 @@ Route::get('/home-account', function () {
     return view('homeAccount.regionSelect');
 })->middleware(['auth', 'verified'])->name('regionSelect');
 
-// 家計簿選択
+// 買い物リスト登録
 Route::get('/cheap-search', function () {
     return view('cheapSearch.register');
 })->middleware(['auth', 'verified'])->name('cheapSearch');
-
 
 //最安値検索
 Route::get('/cheap-search/result', function () {
     return view('cheapSearch.result');
 })->middleware(['auth', 'verified'])->name('cheapSearchResult');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('income_and_expenses', IncomeAndExpenseController::class);
+    Route::post('/home-account/shop-select', [ShopSelectController::class, 'select'])->name('shopSelect');
 });
 
 require __DIR__.'/auth.php';

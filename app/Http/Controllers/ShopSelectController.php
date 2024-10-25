@@ -12,17 +12,11 @@ class ShopSelectController extends Controller
         // 入力から地域情報を取得
         $region = $request->input('region');
 
-        // 緯度経度を取得
-        $latitude = $request->input('latitude');
-        $longitude = $request->input('longitude');
-
         // Google Places APIのエンドポイント
         $apiKey = env('GOOGLE_MAPS_API_KEY');
-        $radius = 2000; // 半径2km
-        $type = 'supermarket';
 
         // Google Places APIへのリクエストURL
-        $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={$latitude},{$longitude}&radius={$radius}&type={$type}&key={$apiKey}";
+        $url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query={$region}&language=ja&key={$apiKey}";
 
         // HTTPリクエストを送信し、レスポンスを取得
         $response = Http::get($url);
@@ -34,6 +28,7 @@ class ShopSelectController extends Controller
         $supermarkets = [];
         if (isset($data['results'])) {
             foreach ($data['results'] as $place) {
+                // 必要な情報を整形して配列に追加
                 $supermarkets[] = [
                     'name' => $place['name'],
                     'place_id' => $place['place_id'],
@@ -41,9 +36,11 @@ class ShopSelectController extends Controller
             }
         }
 
-        // 結果をビューに渡す
-        $shops = $supermarkets;
-
-        return view('homeAccount.shopSelect', compact(['shops', 'region']));
+        $stores = $supermarkets;
+        return view('homeAccount.shopSelect', compact('stores', 'region'));
+        // $stores をセッションに保存
+        //session(['stores' => $supermarkets]);
+        //return redirect()->route('dashboard');
     }
+
 }
