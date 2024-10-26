@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="p-6 bg-white dark:bg-gray-800 shadow-sm">
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-
-                貯金額:{{$result}}円
+            <h2 class="font-semibold text-xl leading-tight ">
+               貯金額:
+               <span class="{{ $result < 0 ? 'text-red-500' : 'text-gray-800 dark:text-gray-200' }}">{{ $result }}円</span>
             </h2>
         </x-slot>
     </div>
