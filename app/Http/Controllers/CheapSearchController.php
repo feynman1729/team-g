@@ -91,45 +91,81 @@ class CheapSearchController extends Controller
 
     public function cheapSearch(Request $request)
     {
+        //requestからstore_id_listとpurchase_dataを取得
         $id_data = $request->input('store_id_list');
         $store_id_list = json_decode($id_data, true);
-        /* example
-            array:20 [▼ // app/Http/Controllers/CheapSearchController.php:98
-            0 => "ChIJseNCfEF_QTUR17p0LUa3xgs"
-            1 => "ChIJS7f4HyN-QTURV19WCcf2SsY"
-            2 => "ChIJHW23E_HVQzURdTO7AEBuZpE"
-            3 => "ChIJKcAIY4vVQzURjsjccz2TgtA"
-            4 => "ChIJ6ZMjwhx-QTURhl2ck0k9C1k"
-            5 => "ChIJUZ1s4Uh-QTUR-JUYBSne7f0"
-            6 => "ChIJIaiWzVF-QTUR_c-p4geEaGU"
-            7 => "ChIJ4_ySbUZ-QTURKmBMaA1uuic"
-            8 => "ChIJ3ZjTkzp-QTURjExlIl2swu0"
-            9 => "ChIJh7sVManVQzURQUZ8qYtG8Tc"
-            10 => "ChIJYSaPWlB-QTURmsTG-uil2Dc"
-            11 => "ChIJm8tiVtJ_QTURxhgfYPhFkq8"
-            12 => "ChIJdxqmtl_VQzURRjQfgWmpXqM"
-            13 => "ChIJKxlcPZCRQTURzGw_ET6drDg"
-            14 => "ChIJp18lmeB9QTURVumulcUe-vs"
-            15 => "ChIJG-5UQvPVQzURwSIMYN1hIeE"
-            16 => "ChIJc-rcBenVQzURt-1QRLTe6Wo"
-            17 => "ChIJSf6RFaR_QTURoGAmy2kZEfk"
-            18 => "ChIJKWaNEPTVQzUR6_h1zDrf88I"
-            19 => "ChIJv2zZTIjVQzURPcImlDQTgtQ"
-            ]
-        */
+        
         $data = $request->input('purchase_data');
         $purchase_list = json_decode($data, true);
         $item_names = array_column($purchase_list, 'name');
-        /*example
-        array:3 [▼ // app/Http/Controllers/CheapSearchController.php:123
-            0 => "刺身醬油"
-            1 => "ケチャップ"
-            2 => "マヨネーズ"
-            ]
-        */
-        $sum = 0;
-        $store_name = "ファインマン商店";
+
+        //dd($id_data, $store_id_list, $item_names);
+
+        $store_prices = [];  // 各店舗ごとの合計価格を格納する配列        
+
+        foreach ($store_id_list as $store_id) {
+            // 各店舗のplace_idと一致するStoreテーブルを取得
+            //$store = Store::select('id')
+                            //->where('place_id', $store_id)
+                            //->first();
+
+            $store = Store::select('stores.id', 'supplies.price')
+                            ->join('supplies', 'stores.id', '=', 'supplies.store_id')
+                            ->where('stores.place_id', $store_id)
+                            ->whereIn('supplies.name', $item_names) // テーブル名を複数形に変更
+                            ->first();
+            //$storeの中身を確認
+            //dd($store);
+            //$db_store_id = $store->id;
+            //dd($db_store_id);
+            $total_price = 0;
+            $all_items_available = true;
+
+            //$sample = [];
+            //$flag = 0;
+
+            foreach ($item_names as $item_name) {
+                
+                //$sample[] = $store->price;
+
+                if ($store) {
+                    // 商品が見つかった場合、その商品の価格を合計に加算
+                    $total_price += $store->price;
+                } else {
+                    // 商品が見つからない場合、その店舗での購入は不可能とし、フラグを変更
+                    $all_items_available = false;
+                    break;
+                }
+
+                //$flag++;
+                //if($flag == 2){
+                    //dd($total_price, $store->id);
+                //}
+            }
+
+            if ($all_items_available) {
+                // 全商品が揃っている店舗のみを対象にする
+                $store_prices[$store_id] = $total_price;
+            }
+        }
+
+        //dd($sample);
+
+        // 最も安価な店舗を見つける
+        if (!empty($store_prices)) {
+            // 配列から最も低い合計金額を持つ店舗のIDを取得
+            $min_price_store_id = array_keys($store_prices, min($store_prices))[0];
+            $sum = $store_prices[$min_price_store_id];
+            
+            // `place_id` を使用して該当店舗を取得
+            $store = Store::where('place_id', $min_price_store_id)->first();
+            $store_name = $store ? $store->name : "店舗名不明";
+        } else {
+            // 全ての店舗で商品の在庫が不足している場合
+            $sum = "該当する店舗が見つかりません";
+            $store_name = "";
+        }
+
         return view('cheapSearch.result', compact(['sum', 'store_name']));
     }
-
 }
