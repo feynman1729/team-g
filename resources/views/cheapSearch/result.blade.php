@@ -10,9 +10,9 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     最も安く買える店舗は {{ $store_name }}で<br />
-                    <div class = "text-blue-600">
+                    <span class = "text-blue-600">
                     {{ $sum }}円
-                    </div>で購入することができます！！
+                    </span>で購入することができます！！
                 </div>
             </div>
         </div>
