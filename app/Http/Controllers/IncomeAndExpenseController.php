@@ -15,7 +15,7 @@ class IncomeAndExpenseController extends Controller
     {
         //
         $income_and_expense = Income_and_Expense::selectRaw('YEAR(date) as year, MONTH(date) as month, delta, date, description, store_id')
-        ->orderBy('date')
+        ->orderByDesc('date')
         ->get()
         ->groupBy(function ($date) {
             return $date->year . '-' . $date->month; // 年と月でグループ化
@@ -46,11 +46,13 @@ class IncomeAndExpenseController extends Controller
     
         // トグルの状態による収入/支出の符号
         $delta = $request->has('toggle') ? -abs($request->input('in_price')) : abs($request->input('in_price'));
-    
+
+        // 日付を取得
+        $date = $request->input('date');
         // データの保存
         Income_and_Expense::create([
             'delta' => $delta,
-            'date' => now(), // または指定があればフォームから受け取る
+            'date' => $date, // または指定があればフォームから受け取る
             'description' => $request->input('description'),
             'store_id' => null, // 必要に応じて設定
         ]);

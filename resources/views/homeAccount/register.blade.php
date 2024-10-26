@@ -97,12 +97,18 @@
                                 onclick="document.getElementById('search_item').submit();">商品検索する</x-bladewind::button>
                         </div>
                     </form>
-                @endif
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <x-bladewind::button
-                        onclick="document.getElementById('regist_item').submit();">商品登録画面へ</x-bladewind::button>
-                </div>
+                    <form method="POST" id="regist_list" action="{{ route('dateSelect') }}">
+                        @csrf
+                        <input type="hidden" name="store_name" value="{{ $store_name }}">
+                        <input type="hidden" name="store_id" value="{{ $store_id }}">
+                        <input type="hidden" name="purchase_data" value="{{ json_encode($purchase_list) }}">
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <x-bladewind::button
+                                onclick="document.getElementById('regist_list').submit();">日付選択へ</x-bladewind::button>
+                        </div>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
