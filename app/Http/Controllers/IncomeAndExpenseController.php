@@ -21,7 +21,10 @@ class IncomeAndExpenseController extends Controller
             return $date->year . '-' . $date->month; // 年と月でグループ化
         });
 
-        return view('dashboard', compact('income_and_expense'));
+        //直前までのすべてのデータを取得して合計値を返す
+        $result = Income_and_Expense::latest()->sum('delta')??0;
+
+        return view('dashboard', compact('income_and_expense', 'result'));
         
     }
 
@@ -91,4 +94,5 @@ class IncomeAndExpenseController extends Controller
     {
         //
     }
+
 }
