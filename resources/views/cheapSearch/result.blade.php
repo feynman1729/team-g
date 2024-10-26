@@ -30,26 +30,39 @@
         </div>
     </div>
     <div id="map"></div>
-
+      <!-- Google Maps APIのスクリプトをロード -->
+  <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyApsx2TXanoD2FbmzLcCfqajqlEPA__B50&callback=initMap' async defer></script>
   <script>
     function initMap() {
-      // 東京タワーの緯度と経度
-      const location = { lat: 35.6586, lng: 139.7454 };
-
-      // マップを指定の場所に表示
+      // Place IDを指定
+      const placeId = '{{$min_price_store_id}}';
+      console.log(placeId);
+      // マップを初期化
       const map = new google.maps.Map(document.getElementById("map"), {
-        center: location,
-        zoom: 15, // ズームレベル
+        zoom: 15,
       });
 
-      // マーカーを追加
-      new google.maps.Marker({
-        position: location,
-        map: map,
+      // Places Serviceを使用してPlace IDに基づいてランドマークを取得
+      const service = new google.maps.places.PlacesService(map);
+      service.getDetails({ placeId: placeId }, (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          // 場所の位置を中心に地図を表示
+          map.setCenter(place.geometry.location);
+
+          // ランドマークのマーカーを表示
+          new google.maps.Marker({
+            position: place.geometry.location,
+            map: map,
+            title: place.name,
+          });
+        } else {
+          console.error("ランドマークの詳細情報を取得できませんでした:", status);
+        }
       });
     }
+
+    // ページロード時にマップを初期化
+    window.onload = initMap;
   </script>
 
-  <!-- Google Maps APIのスクリプトをロード -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
 </x-app-layout>
