@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Store;
 use App\Models\Supply;
+use App\Models\Income_and_Expense;
 
 class RegistItemController extends Controller
 {
@@ -40,11 +41,9 @@ class RegistItemController extends Controller
         
         // supplyテーブルから検索search_wordを含む商品を取得またnameの重複を無しにする
         $result_item = Supply::select('name')
-            ->where('name', 'like', "%$search_word%")
-            ->where('store_id', $store_id)
             ->groupBy('name')
-            ->get();    
-        
+            ->where('name', 'like', "%$search_word%")
+            ->get();
         // nameだけの配列を作成
         $result_name = $result_item->pluck('name')->all();
         
@@ -107,5 +106,33 @@ class RegistItemController extends Controller
         $select_item = "";
 
         return view('homeAccount.register', compact(['store_name','result','store_id','select_item','purchase_list']));
+    }
+
+    public function dateSelect(Request $request)
+    {
+        $store_name = $request->input('store_name');
+        $store_id = $request->input('store_id');
+        $data = $request->input('purchase_data');
+        $purchase_list = json_decode($data, true);
+
+        return view('homeAccount.dateSelect', compact(['store_name','store_id','purchase_list']));
+    }
+
+    public function listRegist(Request $request)
+    {
+        $store_name = $request->input('store_name');
+        $data = $request->input('purchase_data');
+        $purchase_list = json_decode($data, true);
+        $date = $request->input('date');
+
+        //Income_and_Expenseテーブルに保存
+        Income_and_Expense::create([
+            'delta' => -array_sum(array_column($purchase_list, 'price')),
+            'date' => $date,
+            'description' => $store_name . 'での買い物',
+            'store_id' => $request->input('store_id'),
+        ]);
+
+        return redirect()->route('dashboard');;
     }
 }

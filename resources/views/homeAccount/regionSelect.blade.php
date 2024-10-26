@@ -22,27 +22,27 @@
             <x-bladewind::tab-body>
                 <x-bladewind::tab-content name="sys-blue" active="true">
                     <div class="container mx-auto py-20 flex justify-center items-center h-screen">
-                        <div class="bg-white p-8 rounded-lg shadow-md w-1/2">
+                        <div class="bg-white dark:bg-gray-800  sm:rounded-lg p-8 my-10 shadow-md w-1/2">
                             <h2 class="text-center text-2xl font-semibold text-blue-600 mb-4">支出入を入力</h2>
                             <form action="{{ route('income_and_expenses.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
-                                    <div class="flex items-center justify-center space-x-4">
+                                    <div class="flex items-center justify-center space-x-4 ">
                                         <!-- 左側のラベル：収入 -->
-                                        <span class="text-gray-700 font-semibold">収入</span>
+                                        <span class="font-semibold text-gray-900 dark:text-gray-100">収入</span>
 
                                         <!-- トグルスイッチ -->
                                         <x-bladewind::toggle bar="thicker" name="toggle" />
 
                                         <!-- 右側のラベル：支出 -->
-                                        <span class="text-gray-700 font-semibold">支出</span>
+                                        <span class="font-semibold text-gray-900 dark:text-gray-100">支出</span>
                                     </div>
 
-                                    <label for="in_price" class="block text-gray-700">金額</label>
+                                    <label for="in_price" class="block text-gray-900 dark:text-gray-100">金額</label>
                                     <div class="p-6 text-gray-900">
                                         <input type="text"
                                             class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                                            id="in_price" name="in_price" placeholder="金額を入力" readonly required>
+                                            id="in_price" name="in_price" placeholder="金額を入力" required>
                                     </div>
                                     <!-- 電卓ボタン -->
                                     <div class="grid grid-cols-4 gap-2 mt-2">
@@ -72,9 +72,17 @@
                                             class="bg-gray-400 text-white py-2 rounded">←</button>
                                     </div>
                                 </div>
-
                                 <div class="mb-4">
-                                    <label for="description" class="block text-gray-700">内容</label>
+                                    <label for="description" class="block text-gray-900 dark:text-gray-100">日付</label>
+
+                                    <div class="p-6 text-gray-900">
+                                        <input type="date"
+                                            class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                            id="date" name="date" placeholder="日付を入力" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="description" class="block  text-gray-900 dark:text-gray-100">内容</label>
                                     <div class="p-6 text-gray-900">
                                         <input type="text"
                                             class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm"
