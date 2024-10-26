@@ -87,6 +87,10 @@ class RegistItemController extends Controller
         $store_name = $request->input('store_name');
         $save_price = $request->input('item_price');
         $save_item = $request->input('select_item');
+        // nameに$save_itemかつstore_idに$store_idを持つsupplyテーブルのpriceを取得
+        Supply::where('name', $save_item)
+            ->where('store_id', $store_id)
+            ->delete();
         // supplyテーブルに新しく登録
         $supply = new Supply();
         $supply->name = $save_item;
