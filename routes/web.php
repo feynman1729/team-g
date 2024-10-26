@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IncomeAndExpenseController;
 use App\Http\Controllers\ShopSelectController;
 use App\Http\Controllers\RegistItemController;
+use App\Http\Controllers\CheapSearchController;
 use App\Models\Income_and_Expense;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -27,11 +28,6 @@ Route::get('/cheap-search', function () {
     return view('cheapSearch.register');
 })->middleware(['auth', 'verified'])->name('cheapSearch');
 
-//最安値検索
-Route::get('/cheap-search/result', function () {
-    return view('cheapSearch.result');
-})->middleware(['auth', 'verified'])->name('cheapSearchResult');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -44,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/home-account/price-select', [RegistItemController::class, 'priceSelect'])->name('priceSelect');
     Route::post('/home-account/date-select', [RegistItemController::class, 'dateSelect'])->name('dateSelect');
     Route::post('/home-account/regist', [RegistItemController::class, 'listRegist'])->name('listRegist');
+    Route::post('cheap-search/item-list',[CheapSearchController::class, 'selectRegion'])->name('selectGoTo');
+    Route::post('cheap-search/search',[CheapSearchController::class, 'search'])->name('buyItemSearch');
+    Route::post('cheap-search/select-item',[CheapSearchController::class, 'itemSelect'])->name('buyItemSelect');
+    Route::post('cheap-search/result',[CheapSearchController::class, 'cheapSearch'])->name('cheapSearchResult');
     Route::get('/dashboard', [IncomeAndExpenseController::class, 'index'])->name('dashboard');
 });
 
