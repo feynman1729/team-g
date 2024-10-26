@@ -31,7 +31,7 @@
     </div>
     <div id="map"></div>
       <!-- Google Maps APIのスクリプトをロード -->
-  <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyApsx2TXanoD2FbmzLcCfqajqlEPA__B50&callback=initMap' async defer></script>
+  <script async src='https://maps.googleapis.com/maps/api/js?key={{$apiKey}}&libraries=places&callback=initMap'></script>
   <script>
     function initMap() {
       // Place IDを指定
