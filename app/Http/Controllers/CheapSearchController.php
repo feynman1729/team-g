@@ -91,7 +91,6 @@ class CheapSearchController extends Controller
 
     public function cheapSearch(Request $request)
     {
-        //requestからstore_id_listとpurchase_dataを取得
         $id_data = $request->input('store_id_list');
         $store_id_list = json_decode($id_data, true);
         
@@ -99,73 +98,42 @@ class CheapSearchController extends Controller
         $purchase_list = json_decode($data, true);
         $item_names = array_column($purchase_list, 'name');
 
-        //dd($id_data, $store_id_list, $item_names);
-
-        $store_prices = [];  // 各店舗ごとの合計価格を格納する配列        
-
+        $store_prices = [];
         foreach ($store_id_list as $store_id) {
-            // 各店舗のplace_idと一致するStoreテーブルを取得
-            //$store = Store::select('id')
-                            //->where('place_id', $store_id)
-                            //->first();
+            $store_items = Store::select('stores.id', 'supplies.name', 'supplies.price')
+                                ->join('supplies', 'stores.id', '=', 'supplies.store_id')
+                                ->where('stores.place_id', $store_id)
+                                ->whereIn('supplies.name', $item_names) 
+                                ->get();
 
-            $store = Store::select('stores.id', 'supplies.price')
-                            ->join('supplies', 'stores.id', '=', 'supplies.store_id')
-                            ->where('stores.place_id', $store_id)
-                            ->whereIn('supplies.name', $item_names) // テーブル名を複数形に変更
-                            ->first();
-            //$storeの中身を確認
-            //dd($store);
-            //$db_store_id = $store->id;
-            //dd($db_store_id);
+            $store_array = $store_items->toArray();
             $total_price = 0;
-            $all_items_available = true;
+            $found_items = [];            $all_items_available = true;
 
-            //$sample = [];
-            //$flag = 0;
-
-            foreach ($item_names as $item_name) {
-                
-                //$sample[] = $store->price;
-
-                if ($store) {
-                    // 商品が見つかった場合、その商品の価格を合計に加算
-                    $total_price += $store->price;
-                } else {
-                    // 商品が見つからない場合、その店舗での購入は不可能とし、フラグを変更
-                    $all_items_available = false;
-                    break;
-                }
-
-                //$flag++;
-                //if($flag == 2){
-                    //dd($total_price, $store->id);
-                //}
+            foreach ($store_array as $item) {
+                $found_items[] = $item['name'];
+                $total_price += $item['price'];
             }
-
-            if ($all_items_available) {
-                // 全商品が揃っている店舗のみを対象にする
+            if (count(array_diff($item_names, $found_items)) === 0) {
                 $store_prices[$store_id] = $total_price;
             }
         }
 
-        //dd($sample);
-
         // 最も安価な店舗を見つける
         if (!empty($store_prices)) {
-            // 配列から最も低い合計金額を持つ店舗のIDを取得
             $min_price_store_id = array_keys($store_prices, min($store_prices))[0];
             $sum = $store_prices[$min_price_store_id];
             
-            // `place_id` を使用して該当店舗を取得
             $store = Store::where('place_id', $min_price_store_id)->first();
             $store_name = $store ? $store->name : "店舗名不明";
         } else {
-            // 全ての店舗で商品の在庫が不足している場合
             $sum = "該当する店舗が見つかりません";
             $store_name = "";
+            $min_price_store_id = "";
         }
 
-        return view('cheapSearch.result', compact(['sum', 'store_name']));
+        $apiKey = env('GOOGLE_MAPS_API_KEY');
+
+        return view('cheapSearch.result', compact(['sum', 'store_name','min_price_store_id','apiKey']));
     }
 }
