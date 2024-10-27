@@ -11,8 +11,9 @@
   <style>
     /* 地図のサイズを指定 */
     #map {
-      height: 400px;
+      height: 300px; /* 必要に応じて高さを調整 */
       width: 100%;
+      border-radius: 0 0 0.5rem 0.5rem; /* カードの角丸に合わせて調整 */
     }
   </style>
 </head>
@@ -21,15 +22,24 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    最も安く買える店舗は {{ $store_name }}で<br />
-                    <span class = "text-blue-600">
-                    {{ $sum }}円
-                    </span>で購入することができます！！
+                    最も安く買える店舗は 
+                    <span class = "text-blue-600">{{ $store_name }}</span>で<br />
+                    <span class = "text-blue-600">{{ $sum }}円</span>で購入することができます！！
                 </div>
             </div>
         </div>
     </div>
-    <div id="map"></div>
+
+     <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
       <!-- Google Maps APIのスクリプトをロード -->
   <script async src='https://maps.googleapis.com/maps/api/js?key={{$apiKey}}&libraries=places&callback=initMap'></script>
   <script>
