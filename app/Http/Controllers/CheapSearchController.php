@@ -164,8 +164,12 @@ class CheapSearchController extends Controller
             // 全ての店舗で商品の在庫が不足している場合
             $sum = "該当する店舗が見つかりません";
             $store_name = "";
+            $min_price_store_id = "";
         }
 
-        return view('cheapSearch.result', compact(['sum', 'store_name']));
+        // Google Places APIのエンドポイント
+        $apiKey = env('GOOGLE_MAPS_API_KEY');
+
+        return view('cheapSearch.result', compact(['sum', 'store_name','min_price_store_id','apiKey']));
     }
 }
